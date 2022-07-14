@@ -1,0 +1,28 @@
+.item {
+  width: 350px;
+  position: relative;
+  z-index: 0;
+  list-style: circle;
+  display: flex;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(241, 239, 235);
+  box-shadow: 6px 6px 12px 5px rgba(89, 89, 89, 0.73);
+  border: 1px solid grey;
+  transition: all 0.5s;
+}
+.item > p {
+  margin: 0;
+}
+.item:hover {
+  box-shadow: 12px 12px 28px 10px rgba(89, 89, 89, 0.73);
+  transform: scale(1.05);
+}
+.link {
+}
+
+.btn {
+  padding: 5px 30px;
+}
