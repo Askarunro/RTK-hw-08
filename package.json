@@ -21,12 +21,18 @@
     "react-bootstrap": "^2.4.0",
     "react-dom": "^17.0.2",
     "react-redux": "^8.0.2",
+    "react-toastify": "^9.0.1",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
     "redux": "^4.2.0",
     "redux-persist": "^6.0.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "short-unique-id": "^4.4.4",
+    "shortid": "^2.2.16",
+    "styled-components": "^5.3.5",
+    "formik": "^2.2.9",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "predeploy": "npm run build",

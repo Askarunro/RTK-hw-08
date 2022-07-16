@@ -13,14 +13,7 @@ import { authSelectors } from '..//../redux/auth';
 
 
 const Layout = () => {
-  const navigate = useNavigate()
-  const [tokenNew, setToken] = useState("");
-  const token = useSelector((state) => state.token);
-
-  // useEffect(() => {
-  //   setToken(token)
-  // }, []);
-  const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
+   const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
   return (
     <>
       <Grid sx={{ position: "fixed", top: 0, left: 0, right: 0 }} elevation={3} className={l.boxColor}>
@@ -62,6 +55,17 @@ const Layout = () => {
       </Grid>
     </>
   );
+
+
+  // const navigate = useNavigate()
+  // const [tokenNew, setToken] = useState("");
+  // const token = useSelector((state) => state.token);
+
+  // // useEffect(() => {
+  // //   setToken(token)
+  // // }, []);
+
+
   // return (
   //   <>
   //     <Grid sx={{ position: "fixed", top: 0, left: 0, right: 0 }} elevation={3} className={l.boxColor}>

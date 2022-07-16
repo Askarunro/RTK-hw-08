@@ -5,10 +5,10 @@ const initialState = {
   user: { name: null, email: null },
   token: null,
   isLoggedIn: false,
-  isFetchingCurrentUser: false,
+  isReFreshingCurrentUser: false, 
 };
 
-const authSlice = createSlice({
+const authSlice = createSlice({  
   name: 'auth',
   initialState,
   extraReducers: {
@@ -22,22 +22,23 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.isLoggedIn = true;
     },
-    [authOperations.logOut.fulfilled](state) {
+    [authOperations.logOut.fulfilled](state, action) {
       state.user = { name: null, email: null };
       state.token = null;
       state.isLoggedIn = false;
     },
     [authOperations.fetchCurrentUser.pending](state) {
-      state.isFetchingCurrentUser = true;
+      state.isReFreshingCurrentUser = true;
     },
+
     [authOperations.fetchCurrentUser.fulfilled](state, action) {
       state.user = action.payload;
       state.isLoggedIn = true;
-      state.isFetchingCurrentUser = false;
+      state.isReFreshingCurrentUser = false;
     },
-    [authOperations.fetchCurrentUser.rejected](state) {
-      state.isFetchingCurrentUser = false;
-    },
+    [authOperations.fetchCurrentUser.rejected] (state) {
+      state.isReFreshingCurrentUser = false;
+    }
   },
 });
 

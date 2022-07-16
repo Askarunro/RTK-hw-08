@@ -1,17 +1,18 @@
+import React from "react";
+
 import i from "./ContactListItem.module.css";
 // import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { useDeleteContactMutation, useGetContactsQuery } from "..//../redux/api/contactsApi";
+// import { useDeleteContactMutation, useGetContactsQuery } from "..//../redux/api/contactsApi";
 import { Button, ListItem } from "@mui/material";
 import { DeleteForever } from "@mui/icons-material";
 import { useEffect } from "react";
 
 
 import { useSelector, useDispatch } from 'react-redux';
-import { contactsOperations, contactsSelectors, changeFilter } from '../../redux/contacts';
+import { contactsOperations, contactsSelectors, changeFilter, fetchContactsSuccess } from '../../redux/contacts';
 
-
-function Item(state) {
+function Item() {
 // const token = useSelector((state) => state.token);
 
 //   const filter = useSelector((state) => state.filter);
@@ -48,12 +49,28 @@ function Item(state) {
 //   </>
 // );
 
+// const dispatch = useDispatch();
+
+
 const dispatch = useDispatch();
+  
+useEffect(() => {
+  function fetchContact(){
+     dispatch(contactsOperations.fetchContacts())
+}
+fetchContact()
+}, [dispatch]);
+
+
 const contacts = useSelector(state=>state.contacts.items);
-console.log('contacts', contacts)
 
 const filter = useSelector((state) => state.filter);
-console.log(filter)
+
+const onDelete = id => dispatch(contactsOperations.deleteContacts(id)); 
+
+  async function handleSubmit(id) {
+    await onDelete(id)
+  }
 
   return (
     <>
@@ -66,7 +83,7 @@ console.log(filter)
                 <p>name: {contact.name}:</p>
                 <p>number: {contact.number}</p>
               </NavLink>
-              <Button type="button" onClick={e => dispatch(changeFilter(e.target.value))} className={i.btn} variant="outlined" color="error" size="large">
+              <Button type="button" onClick={() =>  handleSubmit(contact.id)} className={i.btn} variant="outlined" color="error" size="large">
                 <DeleteForever />
               </Button>
             </ListItem>

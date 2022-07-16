@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 
-const PublicRoute = ({ token, redirectPath = "/contacts", children , restricted=false }) => {
-  if (token && restricted) {
+const PublicRoute = ({ isLoggedIn, redirectPath = "/contacts", children , restricted=false }) => {
+  if (isLoggedIn && restricted) {
     return <Navigate to={redirectPath}/>;
   }
   return children;

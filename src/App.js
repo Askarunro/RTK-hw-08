@@ -3,14 +3,13 @@ import { Routes, Route, Navigate } from "react-router-dom";
 // import { lazy, Suspense } from "react";
 import Layout from "./components/Layout";
 // import { useSelector } from "react-redux";
-import PrivateRoute from './components/PrivateRoute'
-import PublicRoute  from './components/PublicRoute'
+import PrivateRoute from "./components/PrivateRoute";
+import PublicRoute from "./components/PublicRoute";
 
-
-import { authOperations, authSelectors } from './redux/auth';
-import { useEffect, Suspense, lazy } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {contactsOperations} from './redux/contacts/'
+import { authOperations, authSelectors } from "./redux/auth";
+import { useEffect, Suspense, lazy } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { contactsOperations } from "./redux/contacts/";
 
 const LoginView = lazy(() => {
   return import("./views/LoginView");
@@ -29,7 +28,7 @@ const ContactView = lazy(() => {
 });
 
 // function App() {
-  
+
 //   const token = useSelector((state) => state.token);
 
 //   return (
@@ -39,7 +38,7 @@ const ContactView = lazy(() => {
 //           <Route path="/users/login" element={token ? <Navigate replace to="/contacts" /> : <LoginView />} />
 //           <Route path="/users/signup" element={token ? <Navigate replace to="/contacts" /> : <Register />} />
 //           <Route path="/contacts" element={<PrivateRoute token={token}><Contacts/></PrivateRoute>}/>
-//           <Route path="contacts/:id" element={!token ? <Navigate replace to="/" /> : <ContactView />} /> 
+//           <Route path="contacts/:id" element={!token ? <Navigate replace to="/" /> : <ContactView />} />
 //           <Route
 //             path="*"
 //             element={
@@ -57,46 +56,77 @@ const ContactView = lazy(() => {
 
 // export default App;
 
-
-
-
-
 function App() {
-const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
-const contacts = useSelector(state=>state.contacts.items);
-console.log(contacts)
+  const dispatch = useDispatch();
+  const isFetchingCurrentUser = useSelector(
+    authSelectors.getIsFetchingCurrentUser
+  );
 
-const dispatch = useDispatch();
-  const isFetchingCurrentUser = useSelector(authSelectors.getIsFetchingCurrent);
-useEffect(() => {
-  dispatch(authOperations.fetchCurrentUser());
-}, [dispatch]);
+  useEffect(() => {
+    dispatch(authOperations.fetchCurrentUser());
+  }, [dispatch]);
 
-return (
-  (!isFetchingCurrentUser &&
-    <>
-  <Suspense fallback={<div>Loading</div>}>
-    <Routes>
-      <Route path="/" element={<Layout />}>
-      <Route path="/users/login" element={<PublicRoute restricted token={isLoggedIn}><LoginView/></PublicRoute>}/>
-        <Route path="/users/signup" element={<PublicRoute restricted token={isLoggedIn}><Register/></PublicRoute>}/>
-        <Route path="/contacts" element={<PrivateRoute token={isLoggedIn}><Contacts/></PrivateRoute>}/>
-        <Route path="contacts/:id" element={<PrivateRoute token={isLoggedIn}><ContactView/></PrivateRoute>}/>
-        <Route
-          path="*"
-          element={
-            <div>
-              <h2>Oops we have a problem</h2>
-              <h3>Pages not found</h3>
-            </div>
-          }
-        ></Route>
-      </Route>
-    </Routes>
-  </Suspense>
-  </>
-  )
-);
+  const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
+
+  // const dispatch = useDispatch();
+  //   const isFetchingCurrentUser = useSelector(authSelectors.getIsFetchingCurrent);
+  // useEffect(() => {
+  //   dispatch(authOperations.fetchCurrentUser());
+  // }, [dispatch]);
+
+  return (
+    !isFetchingCurrentUser && (
+      <>
+        <Suspense fallback={<div>Loading</div>}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route
+                path="/users/login"
+                element={
+                  <PublicRoute restricted isLoggedIn={isLoggedIn}>
+                    <LoginView />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/users/signup"
+                element={
+                  <PublicRoute restricted isLoggedIn={isLoggedIn}>
+                    <Register />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/contacts"
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <Contacts />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="contacts/:id"
+                element={
+                  <PrivateRoute isLoggedIn={isLoggedIn}>
+                    <ContactView />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="*"
+                element={
+                  <div>
+                    <h2>Oops we have a problem</h2>
+                    <h3>Pages not found</h3>
+                  </div>
+                }
+              ></Route>
+            </Route>
+          </Routes>
+        </Suspense>
+      </>
+    )
+  );
 }
 
 export default App;

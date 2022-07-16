@@ -4,9 +4,19 @@ import ContactForm from "../ContactForm";
 import Filter from "../Filter";
 import ContactList from "../ContactList/";
 import { Grid, Container } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 
 function Contacts() {
+  useEffect(()=>{
+    
+  },[])
+  
+
+  // const contacts = useSelector(state=>console.log(state));
+  
+  const filter = useSelector((state) => state.filter);
+
   // const [state, setState] = useState(false);
   // const [addContact] = useAddContactMutation();
 
@@ -36,17 +46,18 @@ function Contacts() {
   return (
     <Container>
       <h1>Phonebook</h1>
-      <Grid container direction="row" justifyContent="start" alignItems="start" gap={12}>
-        <Grid>
-          <h2>Contacts list</h2>
-          <Filter />
-          {/* <ContactList state={state} /> */}
-          <ContactList/>
-        </Grid>
-        <Grid>
+      <Grid container direction="column" justifyContent="center" alignItems="center" gap={12}>
           <h2 className={c.title}>New contact</h2>
           <ContactForm btnTitle={`Add contact`}/>
         </Grid>
+      <Grid container direction="column" justifyContent="center" alignItems="center" gap={12}>
+        <Grid>
+          <Filter />
+          <h2>Contacts list</h2>
+          {/* <ContactList state={state} /> */}
+          <ContactList/>
+        </Grid>
+
       </Grid>
     </Container>
   );
